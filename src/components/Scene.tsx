@@ -1,5 +1,5 @@
 import { Canvas } from '@react-three/fiber'
-import { Environment, ContactShadows, Lightformer, OrbitControls } from '@react-three/drei'
+import { Environment, ContactShadows, Lightformer } from '@react-three/drei'
 import { Physics } from '@react-three/rapier'
 import { Suspense } from 'react'
 import { HangingSpheres } from './HangingSpheres'
@@ -121,32 +121,13 @@ export function Scene({ settings }: { settings: Settings }) {
         camera={{ position: [0, 0, 7], fov: 45 }}
         shadows
         dpr={[1, 2]}
-        gl={{ antialias: true }}
+        gl={{ antialias: true, alpha: true }}
+        style={{ background: 'transparent' }}
       >
-        <color attach="background" args={['#050508']} />
-
         <Suspense fallback={null}>
           <Physics gravity={[0, -9.81, 0]}>
             <HangingSpheres settings={settings} />
           </Physics>
-
-          {/* 3D camera controls - right-click/two-finger to rotate, scroll to zoom */}
-          <OrbitControls
-            enablePan={false}
-            minDistance={3}
-            maxDistance={15}
-            minPolarAngle={Math.PI / 6}
-            maxPolarAngle={Math.PI / 1.5}
-            mouseButtons={{
-              LEFT: undefined, // Left click reserved for dragging balls
-              MIDDLE: 2, // Middle = dolly/zoom
-              RIGHT: 0, // Right click = rotate
-            }}
-            touches={{
-              ONE: undefined, // Single touch reserved for dragging balls
-              TWO: 2, // Two-finger = rotate + zoom
-            }}
-          />
 
           <Lighting />
 
@@ -177,12 +158,6 @@ export function Scene({ settings }: { settings: Settings }) {
               />
             </group>
           </Environment>
-
-          {/* Subtle mirror frame for context */}
-          <MirrorFrame />
-
-          {/* Grass background - like looking in a rearview mirror */}
-          <GrassGround />
 
           <ContactShadows
             position={[0, -2.5, 0]}

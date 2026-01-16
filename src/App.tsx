@@ -1,5 +1,7 @@
 import { useControls, folder, button, Leva } from 'leva'
 import { Scene } from './components/Scene'
+import { TopCards } from './components/TopCards'
+import { StackedFooter } from './components/StackedFooter'
 
 function App() {
   const [settings, set] = useControls(() => ({
@@ -69,10 +71,57 @@ function App() {
   }))
 
   return (
-    <>
-      <Leva collapsed={false} />
-      <Scene settings={settings} />
-    </>
+    <div className="relative w-full h-full flex flex-col overflow-hidden">
+      <Leva collapsed={true} />
+
+      {/* PETE watermark background */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0">
+        <span
+          className="font-black tracking-tighter text-gray-200/40"
+          style={{ fontSize: '25vw', letterSpacing: '-0.05em' }}
+        >
+          PETE
+        </span>
+      </div>
+
+      {/* Top cards */}
+      <div className="relative z-10 overflow-visible">
+        <TopCards />
+      </div>
+
+      {/* Middle section with side text and 3D scene */}
+      <div className="flex-1 relative flex">
+        {/* Left side text */}
+        <div className="absolute left-8 top-1/2 -translate-y-1/2 z-10 pointer-events-none">
+          <p className="font-mono text-[11px] text-gray-500 leading-relaxed tracking-wide text-left whitespace-pre-line">
+            {`PETER RODRIGUEZ.
+3RD-GEN NUYORICAN DESIGNER.
+PROUDLY BRONX-BRED.
+NOW PLAYING IN BROOKLYN.`}
+          </p>
+        </div>
+
+        {/* 3D Scene */}
+        <div className="flex-1">
+          <Scene settings={settings} />
+        </div>
+
+        {/* Right side text */}
+        <div className="absolute right-8 top-1/2 -translate-y-1/2 z-10 pointer-events-none">
+          <p className="font-mono text-[11px] text-gray-500 leading-relaxed tracking-wide text-right whitespace-pre-line">
+            {`CRAFTING WORLD-CLASS
+SITES & APPS.
+FROM MY SCREEN TO YOURS.
+WITH HEART, SINCE 1989.`}
+          </p>
+        </div>
+      </div>
+
+      {/* Stacked footer */}
+      <div className="relative z-10 overflow-visible">
+        <StackedFooter />
+      </div>
+    </div>
   )
 }
 
